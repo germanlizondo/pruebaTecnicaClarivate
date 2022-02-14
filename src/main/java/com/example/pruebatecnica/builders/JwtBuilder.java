@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import java.security.Key;
 import java.util.Calendar;
 import java.util.Date;
 
+@Slf4j
 @Component
 @AllArgsConstructor
 public class JwtBuilder {
@@ -37,6 +39,7 @@ public class JwtBuilder {
       return Integer.parseInt(jws.getBody().get("sub").toString());
 
     } catch (JwtException e) {
+      log.error("Token invalid");
       throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Require authentication");
     }
   }

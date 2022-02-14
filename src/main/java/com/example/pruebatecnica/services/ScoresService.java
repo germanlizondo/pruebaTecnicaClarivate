@@ -8,6 +8,7 @@ import com.example.pruebatecnica.models.User;
 import com.example.pruebatecnica.repositories.LevelRepository;
 import com.example.pruebatecnica.repositories.ScoreRepository;
 import com.example.pruebatecnica.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ScoresService {
 
@@ -35,6 +37,7 @@ public class ScoresService {
     Optional<Level> level = levelRepository.findById(levelId);
 
     if (user.isEmpty() || level.isEmpty()) {
+      log.error("User [" + userId + "] or level [" + levelId + "] not found");
       throw new ResponseStatusException(
           HttpStatus.NOT_FOUND, "User [" + userId + "] or level [" + levelId + "] not found");
     }
@@ -42,6 +45,8 @@ public class ScoresService {
     Score score = Score.builder().score(userScore).user(user.get()).level(level.get()).build();
 
     scoreRepository.save(score);
+    log.info(
+        "Score [{}] to user [{}] and level [{}] saved successfully", userScore, userId, levelId);
   }
 
   public List<ScoreByLevel> getHighestScoreByLevel(
@@ -52,6 +57,7 @@ public class ScoresService {
     Optional<Level> level = levelRepository.findById(levelId);
 
     if (level.isEmpty()) {
+      log.error("Level [" + levelId + "] not found");
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Level [" + levelId + "] not found");
     }
 
