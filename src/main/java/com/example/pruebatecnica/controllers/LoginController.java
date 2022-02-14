@@ -15,7 +15,7 @@ public class LoginController {
 
   @Autowired private LoginService loginService;
 
-  @PostMapping(value = "/login", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "/login", produces = MediaType.TEXT_PLAIN_VALUE)
   @ResponseStatus(HttpStatus.ACCEPTED)
   public String login(@RequestBody final User body) {
     return loginService.login(body);
