@@ -1,5 +1,7 @@
 package com.example.pruebatecnica.controllers;
 
+import com.example.pruebatecnica.config.Constants;
+import com.example.pruebatecnica.config.UriConstants;
 import com.example.pruebatecnica.dto.ScoreByLevel;
 import com.example.pruebatecnica.services.ScoresService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,26 +12,26 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/level/{levelId}/score")
+@RequestMapping(UriConstants.BASE_URI_SCORES)
 public class ScoresController {
 
   @Autowired private ScoresService scoresService;
 
-  @PutMapping(value = "/{userScore}", produces = MediaType.APPLICATION_JSON_VALUE)
+  @PutMapping(value = UriConstants.ADD_SCORE, produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void addScore(
-      @RequestHeader("Session-Key") final String token,
-      @PathVariable("levelId") final Integer levelId,
-      @PathVariable("userScore") final Integer userScore) {
+      @RequestHeader(Constants.SESSION_KEY) final String token,
+      @PathVariable(Constants.LEVEL_ID) final Integer levelId,
+      @PathVariable(Constants.USER_SCORE) final Integer userScore) {
     scoresService.addScore(levelId, userScore, token);
   }
 
   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseStatus(HttpStatus.OK)
   public List<ScoreByLevel> getListOfUsersScore(
-      @RequestHeader("Session-Key") final String token,
-      @PathVariable("levelId") final Integer levelId,
-      @RequestParam(name = "filter", required = false) final Integer highestScore) {
+      @RequestHeader(Constants.SESSION_KEY) final String token,
+      @PathVariable(Constants.LEVEL_ID) final Integer levelId,
+      @RequestParam(name = Constants.FILTER, required = false) final Integer highestScore) {
     return scoresService.getHighestScoreByLevel(levelId, highestScore, token);
   }
 }

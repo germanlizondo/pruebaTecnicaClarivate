@@ -1,5 +1,6 @@
 package com.example.pruebatecnica.controllers;
 
+import com.example.pruebatecnica.config.UriConstants;
 import com.example.pruebatecnica.models.User;
 import com.example.pruebatecnica.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class LoginController {
 
   @Autowired private LoginService loginService;
 
-  @PostMapping(value = "/login", produces = MediaType.TEXT_PLAIN_VALUE)
+  @PostMapping(value = UriConstants.LOGIN, produces = MediaType.TEXT_PLAIN_VALUE)
   @ResponseStatus(HttpStatus.ACCEPTED)
   public String login(@RequestBody final User body) {
     return loginService.login(body);

@@ -14,7 +14,9 @@ public class ScoreByLevel implements Serializable {
 
   private static final long serialVersionUID = -8275895132052110350L;
 
-  @JsonProperty private Integer userId;
+  @JsonProperty("user_id")
+  private Integer userId;
 
-  @JsonProperty private Integer score;
+  @JsonProperty("score")
+  private Integer score;
 }
